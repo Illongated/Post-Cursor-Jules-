@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend/app:/app
+      - ./backend/data:/app/data
+    container_name: agrotique-backend
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    ports:
+      - "3000:80" # Nginx serves on port 80 inside the container
+    depends_on:
+      - backend
+    container_name: agrotique-frontend
+    restart: unless-stopped
